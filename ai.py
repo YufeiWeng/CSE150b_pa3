@@ -58,6 +58,7 @@ class Agent:
    
     #TODO: Simulate one step of transition in the game
     #Hint: From the current state, take given action, and return the next state given by the game engine
+    #Hint: You need the act_hit and act_stand functions in game.py. Note that they are already generating random next cards. 
     #Hint: Don't forget to keep track the reward of states as well
     #Hint: After this function, you can also define another function that simulates one full trajectory, but it's optional
     def simulate_a_transition(self, state, action):
