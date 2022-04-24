@@ -56,12 +56,14 @@ class Agent:
     def alpha(n):
         return 10.0/(9 + n)
    
-    #TODO: Simulate one step of transition in the game
-    #Hint: From the current state, take given action, and return the next state given by the game engine
+    #TODO: Take one step of transition in the game simulator
+    #Hint: Take the given action, and return the next state given by the game engine. 
+    #Hint: Useful functions: self.simulator.act_hit, self.simulator.act_stand, self.simulator.state 
+    #Hint: If a state is terminal ("game_over"), i.e., taking any action from it doesn't lead to any next state, then you can return NULL
     #Hint: You need the act_hit and act_stand functions in game.py. Note that they are already generating random next cards. 
-    #Hint: Don't forget to keep track the reward of states as well
+    #Hint: You can keep track the reward of states with this function as well, e.g., as one of the return values
     #Hint: After this function, you can also define another function that simulates one full trajectory, but it's optional
-    def simulate_one_transition(self, state, action):
+    def make_one_transition(self, action):
         pass
 
     #TODO: Implement MC policy evaluation
@@ -77,6 +79,8 @@ class Agent:
 
             # TODO
             # Note: Do not reset the simulator again in the rest of this simulation
+            # Hint: self.simulator.state gives you the current state of the trajectory
+            # Hint: Use the "make_one_transition" function to take steps in the simulator, and keep track of the states
             # Hint: Go through game.py file and figure out which functions will be useful
             # Make sure to update self.MC_values, self.S_MC, self.N_MC for the autograder
             # Don't forget the DISCOUNT
@@ -94,6 +98,8 @@ class Agent:
 
             # TODO
             # Note: Do not reset the simulator again in the rest of this simulation
+            # Hint: self.simulator.state gives you the current state of the trajectory
+            # Hint: Use the "make_one_transition" function to take steps in the simulator, and keep track of the states
             # Hint: Go through game.py file and figure out which functions will be useful
             # Hint: The learning rate alpha is given by "self.alpha(...)"
             # Make sure to update self.TD_values and self.N_TD for the autograder
@@ -112,6 +118,8 @@ class Agent:
 
             # TODO
             # Note: Do not reset the simulator again in the rest of this simulation
+            # Hint: self.simulator.state gives you the current state of the trajectory
+            # Hint: Use the "make_one_transition" function to take steps in the simulator, and keep track of the states
             # Hint: Go through game.py file and figure out which functions will be useful
             # Hint: The learning rate alpha is given by "self.alpha(...)"
             # Hint: Implement epsilon-greedy method in "self.pick_action(...)"
