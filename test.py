@@ -87,8 +87,8 @@ def test_convergence(algorithm):
     tolerance = 0.35
     max_diffs = {
         ALG_MC: 5,
-        ALG_TD: 20,
-        ALG_QL: 20,
+        ALG_TD: 5,
+        ALG_QL: 5,
     }
 
     if algorithm == 0 or algorithm == ALG_MC:
