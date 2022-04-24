@@ -59,7 +59,7 @@ class Agent:
     #TODO: Take one step of transition in the game simulator
     #Hint: Take the given action, and return the next state given by the game engine. 
     #Hint: Useful functions: self.simulator.act_hit, self.simulator.act_stand, self.simulator.state 
-    #Hint: If a state is terminal ("game_over"), i.e., taking any action from it doesn't lead to any next state, then you can return NULL
+    #Hint: If a state is terminal ("game_over"), i.e., taking any action from it doesn't lead to any next state, then you can return None
     #Hint: You need the act_hit and act_stand functions in game.py. Note that they are already generating random next cards. 
     #Hint: You can keep track the reward of states with this function as well, e.g., as one of the return values
     #Hint: After this function, you can also define another function that simulates one full trajectory, but it's optional
