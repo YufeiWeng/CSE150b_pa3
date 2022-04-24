@@ -270,8 +270,7 @@ class GameRunner:
 parser = argparse.ArgumentParser(description='Blackjack')
 parser.add_argument('--test', '-t', dest="test", type=int, default=0, \
     help='1: test three steps (deterministic), \
-          2: test for divergence (100k steps, asymptotic), \
-          3: test for convergence (1 million steps, asymptotic)'
+          2: test for convergence (1 million steps, asymptotic)'
 )
 parser.add_argument('--algorithm', '-a', dest="algorithm", type=int, default=0, help='0: all, 1: MC, 2: TD, 3: Q-Learning')
 args = parser.parse_args()
@@ -280,8 +279,6 @@ if __name__ == '__main__':
     if args.test == 1:
         test_three_steps(args.algorithm)
     elif args.test == 2:
-        test_divergence(args.algorithm)
-    elif args.test == 3:
         test_convergence(args.algorithm)
     else:
         import pygame

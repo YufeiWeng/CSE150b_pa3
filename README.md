@@ -43,16 +43,12 @@ To run deterministic tester for MC algorithm:
 ```
 python main.py -t 1 -a 1
 ```
-To run non-divergence tester for Q-Learning algorithm:
-```
-python main.py -t 2 -a 3
-```
 To run convergence tester for all algorithms:
 ```
-python main.py -t 3
+python main.py -t 2
 ```
 
-These are just a few examples of how you can run the tests - there are more tests available. For more info on testers, look in `Testing` section below.
+For more info on testers, look in `Testing` section below.
 
 Once in-game, the following keyboard options are available:
 - 'h': hit
@@ -66,27 +62,20 @@ Once in-game, the following keyboard options are available:
 
 ## Testing
 
-We provide three testers: `-t 1` for the first 3-step deterministic tests, `-t 2` for 1k-step non-divergence test, and `-t 3` for 1-million-step convergence test. 
+We provide two testers: `-t 1` for the first 3-step deterministic tests, and `-t 2` for 1-million-step convergence test. 
 
 You can also give the options for MC-only (`-a 1`), TD-only (`-a 2`), Q-Learning-only (`-a 3`), and all together (`-a 0` and this is the default). Note that the 3-step deterministic tester (`-t 1`) is not provided for Q-learning. 
 
 Examples:
 
 `python main.py -t 1 -a 1` to run the deterministic tester for MC algorithm. 
-`python main.py -t 2 -a 3` to run the non-divergence tester for Q-Learning algorithm.
-`python main.py -t 3` to run the convergence tester for all algorithms.
+`python main.py -t 2` to run the convergence tester for all algorithms.
 
 ### 3-Step Deterministic Tests
 
 The agent is trained for only three steps, with three predefined different seeds. After each step, the values of states are compared with the reference solution.
 
 Passing this test depends heavily on how `random` is called, and you are advised to follow the comments in `MC_run` and `TD_run` to use this test. **But it is possible that your implementation uses the random numbers differently and the result is different from the test values -- do not freak out. This part of the deterministic tests will not be used for grading; they are just to help you with debugging.** 
-
-### 100-k-Step Non-Divergence Tests
-
-The agent is loaded with state valued trained to convergence (with 1 million steps), and the states further trained with 1k steps. After this, the new states values are compared with the old state values. If the values become much different, you know something is wrong as the values should not diverge after convergence.
-
-Note: The convergence of MC/TD/Q-learning should not depend on any specific random seed within the given error margin.
 
 ### 1-Million-Step Convergence Tester
 
