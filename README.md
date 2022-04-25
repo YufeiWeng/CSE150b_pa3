@@ -4,7 +4,7 @@
 Implement Monte Carlo policy evaluation, Temporal Difference policy evaluation, and Q-Learning for Blackjack. The base game engine uses code from [here](https://github.com/ServePeak/Blackjack-Python/blob/master/blackjack.py). 
 
 ## Due date
-May-8 11:59PM
+May-11 (Wed) 11:59PM
 
 ## The Game
 The game more or less follows the standard Blackjack rules. Read the **Blackjack Rules** section below and game engine code to see minor simplification. Again, you do not need to really understand the rules of the game to do the learning right.
