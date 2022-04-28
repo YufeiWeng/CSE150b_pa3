@@ -39,7 +39,7 @@ for rank in ranks:
         
         - Special states: 
             - WIN_STATE:    represented as (0,0,0)
-            - LOSE_STATE:   represented as (1,1,1)
+            - LOSE_STATE:   represented as (1,0,0)
 '''
 WIN_STATE = (0,0,0)
 LOSE_STATE = (1,0,0)
