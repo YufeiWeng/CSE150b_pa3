@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import copy
 import random
 
@@ -99,6 +98,7 @@ class Agent:
             trajectory.append((self.simulator.state, self.simulator.check_reward()))
             currG = 0
             for i in range(0,len(trajectory)):
+               ##from back to front since only the win state(which is also a ternimal state) has reward 1. Others are all 0.
                state = trajectory[len(trajectory)- 1 - i]
                self.S_MC[state[0]] += state[1] + DISCOUNT*currG
                self.N_MC[state[0]] += 1
