@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import copy
 import random
 
@@ -64,7 +65,14 @@ class Agent:
     #Hint: You can keep track the reward of states with this function as well, e.g., as one of the return values
     #Hint: After this function, you can also define another function that simulates one full trajectory, but it's optional
     def make_one_transition(self, action):
-        pass
+        if self.simulator.game_over():
+            return None
+        if action == 0:
+            self.simulator.act_hit()
+            return self.simulator.state
+        else:
+            self.simulator.act_stand()
+            return self.simulator.state
 
     #TODO: Implement MC policy evaluation
     def MC_run(self, num_simulation, tester=False):
@@ -84,7 +92,19 @@ class Agent:
             # Hint: Go through game.py file and figure out which functions will be useful
             # Make sure to update self.MC_values, self.S_MC, self.N_MC for the autograder
             # Don't forget the DISCOUNT
-    
+            trajectory = []
+            while not self.simulator.game_over():
+                trajectory.append((self.simulator.state, self.simulator.check_reward()))
+                self.make_one_transition(self.default_policy(self.simulator.state))
+            trajectory.append((self.simulator.state, self.simulator.check_reward()))
+            currG = 0
+            for i in range(0,len(trajectory)):
+               state = trajectory[len(trajectory)- 1 - i]
+               self.S_MC[state[0]] += state[1] + DISCOUNT*currG
+               self.N_MC[state[0]] += 1
+               self.MC_values[state[0]] = (self.S_MC[state[0]])/(self.N_MC[state[0]])
+               #bug1(fixed):currG = self.S_MC[state[0]]
+               currG = self.MC_values[state[0]]
     #TODO: Implement TD policy evaluation
     def TD_run(self, num_simulation, tester=False):
 
@@ -95,7 +115,7 @@ class Agent:
             if tester:
                 self.tester_print(simulation, num_simulation, "TD")
             self.simulator.reset()
-
+            
             # TODO
             # Note: Do not reset the simulator again in the rest of this simulation
             # Hint: self.simulator.state gives you the current state of the trajectory
@@ -104,7 +124,18 @@ class Agent:
             # Hint: The learning rate alpha is given by "self.alpha(...)"
             # Make sure to update self.TD_values and self.N_TD for the autograder
             # Don't forget the DISCOUNT
-                
+            state = self.simulator.state
+            while state != None:
+                reward_s = self.simulator.check_reward()
+                nextState = self.make_one_transition(self.default_policy(self.simulator.state))
+                ##keyerror none: should check nextState
+                if nextState != None:
+                    self.TD_values[state] = self.TD_values[state] + self.alpha(self.N_TD[state])*(reward_s + DISCOUNT * self.TD_values[nextState] - self.TD_values[state])
+                else:
+                    self.TD_values[state] = self.TD_values[state] + self.alpha(self.N_TD[state])*(reward_s - self.TD_values[state])
+                self.N_TD[state] += 1
+                state = nextState
+
     #TODO: Implement Q-learning
     def Q_run(self, num_simulation, tester=False, epsilon=0.4):
 
@@ -126,11 +157,34 @@ class Agent:
             # Important: When calling pick_action, use the given parameter epsilon=0.4 to match the autograder
             # Make sure to update self.Q_values, self.N_Q for the autograder
             # Don't forget the DISCOUNT
-
+            state = self.simulator.state
+            while state != None:
+                reward_s = self.simulator.check_reward()
+                action = self.pick_action(state, epsilon)
+                nextState = self.make_one_transition(action)
+                ##keyerror none(fixed): should check nextState
+                if nextState != None:
+                    ##different than TD: should use maxQ
+                     ##bug(fixed):should use nextState instead of state
+                    maxQ = max(self.Q_values[nextState][0], self.Q_values[nextState][1])
+                    ##should use N_Q instead of Q_values for alpha
+                    self.Q_values[state][action] = self.Q_values[state][action] + self.alpha(self.N_Q[state][action] )*(reward_s + DISCOUNT * maxQ - self.Q_values[state][action])
+                    ##keyerror int is not iterable(fixed): [actionPicked] missed
+                else:
+                    self.Q_values[state][action] = self.Q_values[state][action] + self.alpha(self.N_Q[state][action] )*(reward_s - self.Q_values[state][action])
+                self.N_Q[state][action] += 1
+                state = nextState
+   
+   
     #TODO: Implement epsilon-greedy policy
     def pick_action(self, s, epsilon):
         # TODO: Replace the following random value with an action following the epsilon-greedy strategy
-        return random.randint(0, 1)
+        ran = random.uniform(0, 1)
+        if ran < epsilon:
+            return random.randint(0, 1)
+        else:
+            return self.autoplay_decision(s)
+            
 
     ####Do not modify anything below this line####
 
